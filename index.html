@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+    />
+  </head>
+  <body>
+      <div><h1>search here</h1></div>
+    <input
+    type="text"
+    id="input"
+    class="form-control"
+    onchange="getGif(this.value)"
+  />
+  <div id="imga" class="mt-3 px-2"></div>
+  <script>
+ async function getGif(value) {
+      let gif = await fetch(
+        `https://api.giphy.com/v1/gifs/search?q=${value}&api_key=gdqy1cx2QadUAUBrqHaN8CelPxPyuwUo`
+      ).catch((err) => console.log(err));
+      let jsonData = await gif.json();
+      for (let i = 0; i < jsonData["data"].length; i++) {
+        await new Promise((resolve, reject) => {
+          let image = document.createElement("img");
+          document.getElementById("imga").appendChild(image);
+          image.addEventListener("load", () => resolve());
+          image.addEventListener("error", (err) => reject(err));
+          image.src = jsonData["data"][i]["images"]["fixed_height"]["url"];
+        });
+        console.log(i);
+      }
+    
+    }
+
+
+
+
+  </script>
+
+  </body>
+  </html>
